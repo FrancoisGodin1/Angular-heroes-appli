@@ -1,0 +1,106 @@
+<h2>Hero details </h2>
+<!-- <h3><i>FormControl in a FormGroup using FormBuilder</i></h3> -->
+
+<form [formGroup]="heroForm">
+
+  <div class="form-group">
+    <label class="center-block">Name : 
+       <input class="form-control" formControlName="name">
+    </label>
+  </div>
+
+  <div class="form-group radio">
+    <h4>Super Power :</h4>
+    <label class="center-block">
+      <input type="radio" formControlName="power" value="flying">Flying
+    </label>
+    <label class="center-block">
+      <input type="radio" formControlName="power" value="immortality">Immortality
+    </label>
+    <label class="center-block">
+      <input type="radio" formControlName="power" value="Intangibility">Intangibility
+    </label>  
+    <label class="center-block">
+      <input type="radio" formControlName="power" value="invisibility">Invisibility
+    </label>
+  </div>
+
+  <div formArrayName="secretLairs" class="well well-lg">
+      <div *ngFor="let address of secretLairs.controls; let i=index" [formGroupName]="i">
+        <!-- the repeated address template  -->
+        <h4> Address #{{ i+1 }}</h4>
+        <div style="margin-left: 1em;"> 
+          <div class="form-group">
+            <label class="center-block">Street : 
+              <input class="form-control" formControlName="street">
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">City :
+              <input class="form-control" formControlName="city">
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">State :
+              <select class="form-control" formControlName="state">
+                <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">Zip Code :
+              <input class="form-control" formControlName="zip">
+            </label>
+          </div>
+          <br>
+          <!-- End of the repeated address template -->
+        </div>
+      </div>
+      <button (click)="addSecretLair()" type="button">Add a Secret Lair</button>
+      <!-- old -->
+        <!-- <div class="form-group">
+      <label class="center-block">Street : 
+        <input class="form-control" formControlName="street">
+      </label>
+    </div>
+    <div class="form-group">
+      <label class="center-block">City : 
+        <input class="form-control" formControlName="city">
+      </label>
+    </div>
+    <div class="form-group">
+      <label class="center-block">Zip code : 
+        <input class="form-control" formControlName="zip">
+      </label>
+    </div>
+    <div class="form-group">
+      <label class="center-block">State :
+        <select class="form-control" formControlName="state">
+          <option *ngFor="let state of states" [value]="state">{{state}}</option>
+        </select>
+      </label>
+    </div> -->
+  </div>
+  
+  <div class="checkbox">
+    <label class="center-block">
+        <input type="checkbox" formControlName="sidekick">I have a sidekick
+    </label>
+  </div>
+
+</form>
+
+<p> Form value : {{ heroForm.value | json }}</p>
+<p> Form Status : {{ heroForm.status | json }}</p>
+
+<p>Name control value : {{ heroForm.get('name').value  }}</p>
+<p>Name control status : {{ heroForm.get('name').status }}</p>
+<!-- false si l'utilisateur sort du controle(souris ou tab), true sinon  -->
+<!-- <p>Name control untouched : {{ heroForm.get('name').untouched }}</p>  -->
+<!--  false dès que l'utilisateur écrit dans le contrôle. Son opposé est myControl.dirty. -->
+<!-- <p>Name control pristine : {{ heroForm.get('name').pristine }}</p> -->
+<!-- consulter les autres FormControlproperty -> https://angular.io/api/forms/AbstractControl -->
+<p>Hero's city : {{ heroForm.get('address.city').value }}</p>
+
+<!-- raison courante pour inspecter les FormControlpropriétés est de s'assurer que l'utilisateur a entré valeurs valides.
+En savoir plus sur la validation des formes angulaires ->  https://angular.io/guide/form-validation -->
